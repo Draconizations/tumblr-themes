@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{Title}{block:PostSummary}:: {PostSummary}{/block:PostSummary}</title>
+        {block:Description}
+            <meta name="description" content="{MetaDescription}" />
+        {/block:Description}
+        {NewPostStyles}
+        
+        <link rel="shortcut icon" href="{Favicon}" />
+        <link rel="alternate" type="application/rss+xml" href="{RSS}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color" content="{AccentColor}" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet"> 
+        
+        {block:Options}
+            <meta name="if:Show Header" content="true" />
+            <meta name="if:Show Links" content="true" />
+        
+            <meta name="color:Background" content="{BackgroundColor}"/>
+            <meta name="color:Outer Text" content="#000"/>
+            <meta name="color:Post Background" content="{BackgroundColor}"/>
+            <meta name="color:Post Text" content="#000"/>
+            <meta name="color:Faded Text" content="#888"/>
+            <meta name="color:Headers" content="{TitleColor}"/>
+            
+            <meta name="color:Accent" content="{AccentColor}"/>
+            <meta name="color:Shadows" content="{AccentColor}"/>
+            
+            <meta name="color:Border" content="#000"/>
+            <meta name="color:Faded Border" content="#888"/>
+            
+            <meta name="select:Border Width" content="1px"/>
+            <meta name="select:Border Width" content="2px"/>
+            <meta name="select:Border Width" content="3px"/>
+            <meta name="select:Border Width" title="none" content="0px"/>
+            
+            <meta name="select:Corner Roundness" title="none" content="0px"/>
+            <meta name="select:Corner Roundness" content="2px"/>
+            <meta name="select:Corner Roundness" content="4px"/>
+            <meta name="select:Corner Roundness" content="6px"/>
+            <meta name="select:Corner Roundness" content="8px"/>
+            
+            <meta name="select:Spacing" title="small" content="0.75rem"/>
+            <meta name="select:Spacing" title="regular" content="1rem"/>
+            <meta name="select:Spacing" title="large" content="1.25rem"/>
+            
+            <meta name="select:Header Aspect Ratio" title="6:1" content="16.67%"/>
+            <meta name="select:Header Aspect Ratio" title="4:1" content="25%"/>
+            <meta name="select:Header Aspect Ratio" title="10:3" content="30%"/>
+            
+            <meta name="select:Header Position" content="center"/>
+            <meta name="select:Header Position" content="bottom"/>
+            <meta name="select:Header Position" content="top"/>
+            
+            <meta name="text:Sidebar List Symbol" content="✦"/>
+ 
+        {/block:Options}
+        
+        <style>
+            :root {
+                --background-color: {color:Background};
+                --block-color: {color:Post Background};
+                --border-color: {color:Border};
+                --faded-border-color: {color:Faded Border};
+                --header-color: {color:Headers};
+                --text-color: {color:Post Text};
+                --faded-text-color: {color:Faded Text};
+                --accent-color: {color:Accent};
+                --shadow-color: {color:Shadows};
+                --outer-text-color: {color:Outer Text};
+                --border-width: {select:Border Width};
+                --border-radius: {select:Corner Roundness};
+                --spacing: {select:Spacing};
+                --banner-ratio: {select:Header Aspect Ratio};
+                --banner-position: {select:Header Position};
+                --list-symbol: "{text:Sidebar List Symbol}";
+            }
+            
+            * {
+                box-sizing: border-box;
+            }
+            
+            /* ===================
+                LAYOUT 
+               =================== */
+            body {
+                margin: 0;
+                background-color: var(--background-color);
+                color: var(--outer-text-color);
+                font-family: 'Atkinson Hyperlegible', sans-serif;
+                font-size: 15px;
+                position: relative;
+            }
+            
+            .wrapper {
+                margin: var(--spacing);
+                margin-right: calc(var(--spacing) * 2);
+                margin-bottom: calc(var(--spacing) * 2);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .row-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .shadow {
+                box-shadow: var(--spacing) var(--spacing) var(--shadow-color);
+            }
+            
+            hr {
+                border: none;
+                height: var(--border-width);
+                background-color: var(--faded-border-color);
+                min-height: 1px;
+            }
+            
+            h1, h2, h3, h4, h5, h6, hr, p, ul, ol {
+                margin: 0;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                color: var(--header-color);                
+            }
+            
+            a {
+                color: var(--accent-color);
+                text-decoration: none;
+                font-weight: bold;
+            }
+            
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            /* ===================
+                DECORATIONS 
+               =================== */
+               
+            .d-block {
+                display: block;
+            }
+            
+            .d-block h1, .d-block h2, .d-block h3, .d-block h4, .d-block h5, .d-block h6, .d-block hr, .d-block ul, .d-block ol, .d-block div {
+                margin: 0.5em 0;
+            }
+            
+            .flex {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            .column {
+                flex-direction: column;
+            }
+            
+            .gap {
+                gap: calc(var(--spacing) * 2);
+            }
+            
+            .gap-s {
+                gap: calc(var(--spacing));
+            }
+            
+            .gap-col-s {
+                column-gap: calc(var(--spacing));
+            }
+            
+            .center {
+                align-items: center;
+            }
+            
+            .text-center {
+                text-align: center;
+            }
+            
+            .block {
+                border: {select:Border Width} solid {color:Border};
+                background-color: var(--block-color);
+                color: var(--text-color);
+                padding: var(--spacing);
+            }
+            
+            .rounded {
+                border-radius: var(--border-radius);
+            }
+            
+            .rounded-top {
+                border-top-left-radius: var(--border-radius);
+                border-top-right-radius: var(--border-radius);
+            }
+            
+            /* ===================
+                HELPERS 
+               =================== */
+            
+            .float-left {
+                float: left;
+            }
+            
+            .float-right {
+                float: right;
+            }
+            
+            .flex-1 {
+                flex: 1;
+            }
+            
+            .space-between {
+                justify-content: space-between;
+            }
+            
+            .m {
+                margin: var(--spacing) !important;
+            }
+            
+            .np {
+                margin: calc(var(--spacing) * -1) !important;
+                width: calc(100% + var(--spacing) * 2) !important;
+            }
+            
+            .npx {
+                margin-left: calc(var(--spacing) * -1) !important;
+                margin-right: calc(var(--spacing) * -1) !important;
+                
+                width: calc(100% + var(--spacing) * 2) !important;
+            }
+            
+            .mt-0 {
+                margin-top: 0 !important;
+            }
+            
+            .mb-0 {
+                margin-bottom: 0 !important;
+            }
+            
+            .mt {
+                margin-top: var(--spacing) !important;
+            }
+            
+            .mb {
+                margin-bottom: var(--spacing) !important;
+            }
+            
+            .mb-s {
+                margin-bottom: 0.5rem;
+            }
+            
+            .mr {
+              margin-right: var(--spacing) !important;  
+            }
+            
+            .ml {
+               margin-right: var(--spacing) !important;   
+            }
+            
+            .ml-auto {
+                margin-left: auto;
+            }
+            
+            .mr-auto {
+                margin-right: auto;
+            }
+            
+            .w-100 {
+                width: 100%;
+            }
+            
+            .nowrap {
+                flex-wrap: no-wrap;
+            }
+            
+            .text, .outer-text, .post-date, .tag, .text:hover, .outer-text:hover, .post-date:hover {
+                text-decoration: none;
+                font-weight: normal;
+            }
+            
+            .outer-text, .post-date {
+                color: var(--outer-text-color);
+            }
+            
+            .text {
+                color: var(--text-color);
+            }
+            
+            .tag {
+                color: var(--faded-text-color);
+            }
+            
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                cursor: default;
+            }
+            
+            .tooltip .tooltip-text {
+                position: absolute;
+                top: 60%;
+                left: 50%;
+                margin-left: -60px;
+                visibility: hidden;
+                width: 120px;
+                background-color: var(--text-color);
+                color: var(--block-color);
+                text-align: center;
+                padding: 0.5em;
+                border-radius: var(--border-radius);
+            }
+            
+            .tooltip .tooltip-text:after {
+                content: "";
+                position: absolute;
+                bottom: 100%;  /* At the top of the tooltip */
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent transparent var(--text-color) transparent;
+            }
+            
+            .tooltip:hover .tooltip-text {
+                visibility: visible;
+            }
+            
+            .border-faded {
+                border: 1px solid var(--faded-border-color);
+            }
+            
+            .list-symbol {
+                list-style-type: none;
+            }
+            
+            .list-symbol li {
+                padding-left: 1.5em;
+                text-indent: -1.5em;
+                position: relative;
+            }
+            
+            .list-symbol li:before {
+                content: var(--list-symbol);
+                position: absolute;
+                margin-top: -2px;
+            }
+            
+            /* ===================
+                SPECIFIC ELEMENTS 
+               =================== */
+            
+            .thumbnail {
+                width: 1.75em;
+                height: 1.75em;
+                background-size: cover;
+                margin-right: 0.5rem !important;
+            }
+            
+            .header-bg-image {
+                background-image: url({HeaderImage});
+                background-size: cover;
+                background-repeat: no-repeat;
+                padding-bottom: var(--banner-ratio);
+                background-position: var(--banner-position);
+            }
+            
+            .sidebar-container {
+                width: 100%;
+            }
+            
+            .post-wrapper {
+                flex: 1;
+                width: 100%;
+            }
+            
+            .reblog-body {
+                margin: var(--spacing) !important;
+            }
+            
+            .like-and-reblog {
+                width: 50px;
+                height: 20px;
+            }
+            
+            .like-and-reblog div {
+                margin: 0 !important;
+            }
+            
+            .like-and-reblog a .like-and-reblog a:hover {
+                text-decoration: none;
+                font-weight: normal;
+            }
+            
+            .post-info-notes {
+                align-self: flex-start;
+            }
+            
+            .post-notes {
+                margin-top: calc(var(--spacing) * 2);
+            }
+            
+            .post-notes a {
+                font-weight: normal;
+            }
+            
+            .notes {
+                padding: var(--spacing);
+            }
+            
+            .note {
+                margin-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+            }
+            
+            .note .avatar {
+                margin-right: 0.5rem;
+            }
+            
+            .more_notes_link_container {
+                padding-top: var(--spacing);
+                margin-top: var(--spacing);
+                border-top: var(--border-width) solid var(--border-color);
+            }
+            
+            .more_notes_link {
+                display: inline-block;
+                margin: 0 auto;
+                text-align: center;
+                font-weight: bold !important;
+            }
+            
+            .post_media_photo {
+                width: auto;
+                max-width: 100%;
+                height: auto;
+            }
+            
+            .quote {
+                font-size: 1.8rem;
+                text-align: center;
+                color: var(--header-color);
+            }
+            
+            .source {
+                font-style: italic;
+                text-align: right;
+            }
+            
+            .tmblr-full {
+                width: calc(100% + var(--spacing) * 2);
+                margin: calc(var(--spacing) * -1) calc(var(--spacing) * -1) 0 calc(var(--spacing) * -1);
+            }
+            
+            .audio-caption {
+                background-color: var(--accent-color);
+                color: var(--outer-text-color);
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
+            
+            .album-cover {
+                border-top-right-radius: var(--border-radius);
+            }
+            
+            .btn {
+                background-color: var(--accent-color);
+                color: var(--outer-text-color);
+                padding: calc(var(--spacing) * 0.5);
+                border: none;
+                font-weight: bold;
+                display: inline-block;
+            }
+            
+            .btn:hover {
+                cursor: pointer;
+                transform: scale(108%);
+            }
+            
+            .credit {
+                position: sticky;
+                bottom: 0;
+                left: 0;
+                padding: var(--spacing);
+                display: flex;
+                justify-content: center;
+            }
+            
+
+            @media (min-width: 850px) {
+                .credit {
+                    padding: calc(var(--spacing) * 2);
+                    justify-content: stretch;
+                }
+                
+                .wrapper {
+                    width: 80%;
+                    max-width: 900px;
+                    margin: var(--spacing) auto;
+                    margin-bottom: calc(var(--spacing) * 2);
+                }
+                
+                .row-wrapper {
+                    flex-direction: row;
+                    align-items: flex-start;
+                    justify-content: center;
+                }
+                
+                .sidebar-container {
+                    width: 40%;
+                    max-width: 500px;
+                    position: -webkit-sticky;
+                    position: sticky;
+                    top: var(--spacing);
+                }
+            }
+        </style>
+    </head>
+    <body class="{block:homepage}home{/block:homepage}{block:tagpage}tag{/block:tagpage}{block:searchpage}search{/block:searchpage}{block:submitpage}submit-{/block:submitpage}{block:AskPage}ask{/block:AskPage}-page">
+        <main class="wrapper gap">
+            {block:ifShowHeader}
+                <header class="flex gap block shadow rounded center">
+                    {block:ShowHeaderImage}
+                        <div class="np flex column header-wrapper header-bg-image rounded-top"></div> 
+                    {/block:ShowHeaderImage}
+                    {block:ShowTitle}
+                        <a href="{BlogUrl}"><h2>{Title}</h2></a>
+                    {/block:ShowTitle}
+                    <nav class="ml-auto {block:HideTitle}mr-auto{/block:HideTitle} flex gap">
+                        {block:HideTitle}
+                        <a href="{BlogUrl}">Index</a>
+                        {/block:HideTitle}
+                        {block:AskEnabled}
+                            <a href="ask">{AskLabel}</a>
+                        {/block:AskEnabled}
+                        {block:SubmissionsEnabled}
+                            <a href="submit">{SubmitLabel}</a>
+                        {/block:SubmissionsEnabled}
+                    </nav>
+                </header>
+            {/block:ifShowHeader}
+            
+            <div class="row-wrapper flex gap">
+                <div class="sidebar-container flex column gap">
+                <aside class="sidebar flex column gap block shadow rounded">
+                    <div class="d-block">
+                        {block:ifNotShowHeader}
+                        {block:ShowTitle}
+                            <a href="{BlogUrl}"><h2 class="mt-0" >{Title}</h2></a>
+                            <hr/>
+                        {/block:ShowTitle}
+                        {/block:ifNotShowHeader}
+                        {block:ShowAvatar}
+                            <img class="float-left mr rounded" src="{PortraitURL-96}" />
+                        {/block:ShowAvatar}
+                        {block:ShowDescription}
+                            <p>{Description}</p>
+                        {/block:ShowDescription}
+                    </div>
+                </aside>
+                <form action="/search" method="get" class="sidebar flex block shadow rounded gap-s">
+                    <input type="text" name="searchQuery" class="flex-1 rounded border-faded" value="{SearchQuery}"/>
+                    <input type="submit" class="btn rounded" value="Search"/>
+                </form>
+                {block:ifShowLinks}
+                <nav class="sidebar flex column block shadow rounded">
+                    <ul class="{block:ifSidebarListSymbol}list-symbol{/block:ifSidebarListSymbol}">
+                    {block:ifNotShowHeader}
+                        <li>
+                            <a href="{BlogUrl}">Index</a>
+                        </li>
+                        {block:AskEnabled}
+                        <li>
+                            <a href="ask">{AskLabel}</a>
+                        </li>
+                        {/block:AskEnabled}
+                        {block:SubmissionsEnabled}
+                        <li>
+                            <a href="submit">{SubmitLabel}</a>
+                        </li>
+                        {/block:SubmissionsEnabled}
+                    {/block:ifNotShowHeader}
+                    {block:HasPages}
+                        {block:Pages}
+                        <li>
+                            <a href="{URL}">{Label}</a>
+                        </li>
+                        {/block:Pages}
+                    {/block:HasPages}
+                    </ul>
+                </nav>
+                {/block:ifShowLinks}
+                {block:Pagination}
+                    <div class="sidebar text-center outer-text mb">
+                        {block:PreviousPage}
+                        <a href="{PreviousPage}">‹ prev</a> |
+                        {/block:PreviousPage}
+                        Page {CurrentPage}
+                        {block:NextPage}
+                        | <a href="{NextPage}">next ›</a>
+                        {/block:NextPage}
+                    </div>
+                {/block:Pagination}
+                </div>
+                
+                <div class="post-wrapper flex column gap">
+                {block:Posts}
+                <article id={PostId} class="{PostType}-post flex mb column {TagsAsClasses}">
+                        {block:Date}
+                        <div class="flex gap center mb-s">
+                            <a href="/day/{Year}/{MonthNumberWithZero}/{dayofmonthwithzero}" class="post-date">{ShortMonth} {DayOfMonthWithZero}{DayOfMonthSuffix}, {Year}</a>
+                            {block:RebloggedFrom}
+                                <span class="post-reblogged-from ml-auto">
+                                    via <a href="{ReblogParentURL}">{ReblogParentName}</a>
+                                </span>
+                            {/block:RebloggedFrom}
+                            </div>
+                        {/block:Date}
+                    <div class="block rounded shadow d-block post-container">
+                        {block:Text}
+                                {block:Title}
+                                    <div class="post-title flex justify-between">
+                                        <h2 class="flex-1">{Title}</h2>
+                                        {block:PinnedPostLabel}
+                                        <span class="tooltip ml">📌
+                                            <span class="tooltip-text">
+                                                {PinnedPostLabel}
+                                            </span>
+                                        </span>
+                                        {/block:PinnedPostLabel}
+                                    </div>
+                                {block:Body}
+                                    <hr/>                                
+                                {/block:Body}
+                                {/block:Title}
+                        {/block:Text}
+                        
+                        {block:Quote}
+                            <div class="quote">
+                                "{Quote}"
+                            </div>
+                            <div class="source mt mb">
+                                — {Source}
+                            </div>
+                        {/block:Quote}
+                        {block:Photo}
+                            <img src="{PhotoURL-HighRes}" alt="{photoalt}" class="photos">
+                        {/block:Photo}
+                        
+                        {block:Photoset}
+                            {Photoset}
+                        {/block:Photoset}
+                        
+                        <div class="post-caption d-block">
+                            {block:Text}
+                                {block:NotReblog}
+                                    <div class="reblog-body">
+                                        {Body}
+                                    </div>
+                                {/block:NotReblog}
+                            {/block:Text}
+                            {block:NotReblog}
+                                {block:Caption}
+                                    <div class="reblog-body">
+                                        {Caption}
+                                    </div>
+                                {/block:Caption}
+                            {/block:NotReblog}
+                                                {block:RebloggedFrom}
+                                {block:Reblogs}
+                                    <div class="reblog mb">
+                                        <div class="reblog-header">
+                                           <a class="flex center" href="{Permalink}">
+                                               <div class="rounded thumbnail" style="background-image: url('{PortraitURL-64}')"></div>
+                                               {Username}
+                                           </a>
+                                        </div>
+                                        <hr/>
+                                        <div class="reblog-body d-block">
+                                            {Body}
+                                        </div> 
+                                    </div>
+                                {/block:Reblogs}
+                            {/block:RebloggedFrom}
+                        </div>
+                        {block:Date}
+                            <div class="post-info">
+                                <hr class="npx" />
+                                <div class="flex gap mt mb-0">
+                                    <div class="tags flex gap-col-s flex-1 center">
+                                        {block:Tags}
+                                            <a class="tag" href="{tagURL}" >#{Tag}</a>
+                                        {/block:Tags}
+                                    </div>
+                                    <span class="post-info-notes flex gap-s nowrap center">
+                                        <a href="{PermaLink}">{NoteCountWithLabel}</a>
+                                        <div class="like-and-reblog flex nowrap space-between">
+                                            {ReblogButton color="grey"} {LikeButton color="grey"}                                    
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        {/block:Date}
+                    </div>
+                    {block:PermalinkPage}
+                    <div class="post-notes">
+                        {PostNotes-16}
+                    </div>
+                    {/block:PermalinkPage}
+                </article>
+                {/block:Posts}
+                {block:Pagination}
+                    <div class="text-center outer-text mb">
+                        {block:PreviousPage}
+                        <a href="{PreviousPage}">‹ prev</a> |
+                        {/block:PreviousPage}
+                        Page {CurrentPage}
+                        {block:NextPage}
+                        | <a href="{NextPage}">next ›</a>
+                        {/block:NextPage}
+                    </div>
+                {/block:Pagination}
+                </div>
+            </div>
+        </main>
+        <div class="credit">
+            <a class="btn rounded outer-text" href="https://fxlmine.tumblr.com/">Theme</a>
+        </div>
+    </body>
+</html>
