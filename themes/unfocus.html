@@ -347,6 +347,11 @@
                 margin-top: -2px;
             }
             
+            .post-bg {
+                background-color: var(--block-color);
+                color: var(--text-color);
+            }
+            
             /* ===================
                 SPECIFIC ELEMENTS 
                =================== */
@@ -560,7 +565,7 @@
                     </div>
                 </aside>
                 <form action="/search" method="get" class="sidebar flex block shadow rounded gap-s">
-                    <input type="text" name="searchQuery" class="flex-1 rounded border-faded" value="{SearchQuery}"/>
+                    <input type="text" name="searchQuery" class="flex-1 rounded border-faded post-bg" value="{SearchQuery}"/>
                     <input type="submit" class="btn rounded" value="Search"/>
                 </form>
                 {block:ifShowLinks}
