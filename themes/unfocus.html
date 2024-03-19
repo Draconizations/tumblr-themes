@@ -22,12 +22,13 @@
         
             <meta name="color:Background" content="{BackgroundColor}"/>
             <meta name="color:Outer Text" content="#000"/>
-            <meta name="color:Post Background" content="{BackgroundColor}"/>
+            <meta name="color:Post Background" content="#fff"/>
             <meta name="color:Post Text" content="#000"/>
             <meta name="color:Faded Text" content="#888"/>
             <meta name="color:Headers" content="{TitleColor}"/>
             
             <meta name="color:Accent" content="{AccentColor}"/>
+            <meta name="color:Outer Accent" content="{AccentColor}"/>
             <meta name="color:Shadows" content="{AccentColor}"/>
             
             <meta name="color:Border" content="#000"/>
@@ -70,6 +71,7 @@
                 --text-color: {color:Post Text};
                 --faded-text-color: {color:Faded Text};
                 --accent-color: {color:Accent};
+                --outer-accent-color: {color:Outer Accent};
                 --shadow-color: {color:Shadows};
                 --outer-text-color: {color:Outer Text};
                 --border-width: {select:Border Width};
@@ -129,13 +131,18 @@
             }
             
             a {
-                color: var(--accent-color);
+                color: var(--outer-accent-color);
                 text-decoration: none;
                 font-weight: bold;
             }
             
             a:hover {
                 text-decoration: underline;
+            }
+            
+            .block a {
+                color: var(--accent-color);
+
             }
             
             /* ===================
