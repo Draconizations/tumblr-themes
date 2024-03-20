@@ -122,7 +122,7 @@
                 min-height: 1px;
             }
             
-            h1, h2, h3, h4, h5, h6, hr, p, ul, ol {
+            h1, h2, h3, h4, h5, h6, hr, ul, ol {
                 margin: 0;
             }
             
@@ -382,6 +382,10 @@
                 width: 100%;
             }
             
+            .about-me p {
+                margin: 0;
+            }
+            
             .post-wrapper {
                 flex: 1;
                 width: 100%;
@@ -573,7 +577,7 @@
             <div class="row-wrapper flex gap nowrap">
                 <div class="sidebar-container flex column gap">
                 <aside class="sidebar flex column gap block shadow rounded">
-                    <div class="d-block">
+                    <div class="d-block about-me">
                         {block:ifNotShowHeader}
                         {block:ShowTitle}
                             <a href="{BlogUrl}"><h2 class="mt-0" >{Title}</h2></a>
