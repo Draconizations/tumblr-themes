@@ -279,7 +279,7 @@
             }
             
             .nowrap {
-                flex-wrap: no-wrap;
+                flex-wrap: nowrap;
             }
             
             .text, .outer-text, .post-date, .tag, .text:hover, .outer-text:hover, .post-date:hover {
@@ -384,6 +384,11 @@
             
             .post-wrapper {
                 flex: 1;
+                width: 100%;
+                min-width: 0;
+            }
+            
+            .post {
                 width: 100%;
             }
             
@@ -542,7 +547,7 @@
         </style>
     </head>
     <body class="{block:homepage}home{/block:homepage}{block:tagpage}tag{/block:tagpage}{block:searchpage}search{/block:searchpage}{block:submitpage}submit-{/block:submitpage}{block:AskPage}ask{/block:AskPage}-page">
-        <main class="wrapper gap">
+        <main class="wrapper gap nowrap">
             {block:ifShowHeader}
                 <header class="flex gap block shadow rounded center">
                     {block:ShowHeaderImage}
@@ -565,7 +570,7 @@
                 </header>
             {/block:ifShowHeader}
             
-            <div class="row-wrapper flex gap">
+            <div class="row-wrapper flex gap nowrap">
                 <div class="sidebar-container flex column gap">
                 <aside class="sidebar flex column gap block shadow rounded">
                     <div class="d-block">
@@ -630,9 +635,9 @@
                 
                 <div class="post-wrapper flex column gap">
                 {block:Posts}
-                <article id={PostId} class="{PostType}-post flex mb column {TagsAsClasses}">
+                <article id={PostId} class="{PostType}-post post flex mb column nowrap {TagsAsClasses}">
                         {block:Date}
-                        <div class="flex gap center mb-s">
+                        <div class="flex gap center post-info-top mb-s">
                             <a href="/day/{Year}/{MonthNumberWithZero}/{dayofmonthwithzero}" class="post-date">{ShortMonth} {DayOfMonthWithZero}{DayOfMonthSuffix}, {Year}</a>
                             {block:RebloggedFrom}
                                 <span class="post-reblogged-from ml-auto">
